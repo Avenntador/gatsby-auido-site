@@ -18,18 +18,25 @@ const config: GatsbyConfig = {
     {
       resolve: "gatsby-source-filesystem",
       options: {
-        name: "images",
-        path: "./src/images/",
+        name: "pages",
+        path: `./src/pages`,
       },
-      __key: "images",
+      __key: "pages",
     },
     {
       resolve: "gatsby-source-filesystem",
       options: {
-        name: "pages",
-        path: "./src/pages/",
+        name: "assets",
+        path: `./src/assets`,
       },
-      __key: "pages",
+      __key: "assets",
+    },
+    {
+      resolve: "gatsby-source-filesystem",
+      options: {
+        name: `data`,
+        path: `${__dirname}/data`,
+      },
     },
   ],
 };

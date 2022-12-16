@@ -26,11 +26,6 @@ body {
   overflow-x: hidden;
 }
 
-#___gatsby {
-  /* max-width: 1920px;
-  margin: 0 auto; */
-}
-
 /**
    * Render the `main` element consistently in IE.
    */
