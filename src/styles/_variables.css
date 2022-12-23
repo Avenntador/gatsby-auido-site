@@ -1,0 +1,65 @@
+:root {
+  /* -----------width-------------------------- ------ */
+  --body-max-width: 144rem;
+  --header-max-width: 111rem;
+  --navbar-max-width: 111rem;
+  --content-max-width: 111rem;
+  /* ------------------------------------------------- */
+
+  /* -----------typography---------------------------- */
+  --html-font-size: 62.5%;
+  --default-body-font-size: 1.4rem;
+
+  --h1-font-size: 5.6rem;
+  --h1-letter-spacing: 0.2rem;
+  --h1-line-height: 5.8rem;
+
+  --h2-font-size: 4rem;
+  --h2-line-height: 4.4rem;
+  --h2-letter-spacing: 0.15rem;
+
+  --h3-font-size: 3.2rem;
+  --h3-line-height: 5.8rem;
+  --h3-letter-spacing: 0.2rem;
+
+  --h4-font-size: 2.8rem;
+  --h4-line-height: 3.8rem;
+  --h4-letter-spacing: 0.2rem;
+
+  --h5-font-size: 2.4rem;
+  --h5-line-height: 3.3rem;
+  --h5-letter-spacing: 0.17rem;
+
+  --h6-font-size: 1.4rem;
+  --h6-line-height: 2.4rem;
+  --h6-letter-spacing: 0.13rem;
+
+  --overline-font-size: 1.4rem;
+  --overline-line-height: 1.9rem;
+  --overline-letter-spacing: 1rem;
+
+  --subtitle-font-size: 1.3rem;
+  --subtitle-line-height: 2.5rem;
+  --subtitle-letter-spacing: 0.1rem;
+
+  --body-font-size: 1.5rem;
+  --body-line-height: 2.5rem;
+
+  --font-family-regular: "Manrope-Regular", sans-serif;
+  --font-family-medium: "Manrope-Medium", sans-serif;
+  --font-family-bold: "Manrope-Bold", sans-serif;
+  /* ------------------------------------------------- */
+
+  /* -----------color---------------------------- */
+  --color-orange-primary: #d87d4a;
+  --color-orange-secondary: #fbaf85;
+
+  --color-black-primary: #000000;
+  --color-black-secondary: #101010;
+
+  --color-gray-primary: #f1f1f1;
+  --color-gray-secondary: #fafafa;
+
+  --color-white: #ffffff;
+  /* -------------------------------------------- */
+}

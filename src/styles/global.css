@@ -1,13 +1,12 @@
+@import url("./_fonts.css");
+@import url("./_variables.css");
+@import url("./_normalize.css");
+
 html {
-  font-size: 62.5%;
+  font-size: var(--html-font-size);
 }
 
 body {
-  font-size: 1.4rem;
-  font-family: "Manrope-Regular", sans-serif;
-}
-
-#___gatsby {
-  max-width: 1920px;
-  margin: 0 auto;
+  font-size: var(--default-body-font-size);
+  font-family: var(--font-family-regular);
 }

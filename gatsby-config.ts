@@ -1,3 +1,7 @@
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+});
+
 import type { GatsbyConfig } from "gatsby";
 
 const config: GatsbyConfig = {
@@ -16,26 +20,107 @@ const config: GatsbyConfig = {
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
     {
+      resolve: `gatsby-source-strapi`,
+      options: {
+        apiURL: process.env.STRAPI_API_URL,
+        accessToken: process.env.STRAPI_TOKEN,
+        collectionTypes: [
+          {
+            singularName: "product",
+            queryParams: {
+              populate: {
+                gallery: {
+                  populate: {
+                    gallery: {
+                      populate: {
+                        image: "*",
+                      },
+                    },
+                  },
+                },
+                categoryImage: {
+                  populate: {
+                    image: "*",
+                  },
+                },
+                includes: "*",
+                others: {
+                  populate: {
+                    images: {
+                      populate: {
+                        image: "*",
+                      },
+                    },
+                  },
+                },
+                product_image: {
+                  populate: {
+                    image: "*",
+                  },
+                },
+              },
+            },
+          },
+        ],
+        singleTypes: [
+          {
+            singularName: "home",
+            queryParams: {
+              populate: {
+                homeHeroImage: {
+                  populate: {
+                    images: {
+                      populate: {
+                        image_hero: "*",
+                      },
+                    },
+                  },
+                },
+                section: {
+                  populate: {
+                    image: "*",
+                  },
+                },
+              },
+            },
+          },
+        ],
+      },
+    },
+
+    {
       resolve: "gatsby-source-filesystem",
       options: {
         name: "pages",
-        path: `./src/pages`,
+        path: `${__dirname}/src/pages`,
       },
-      __key: "pages",
     },
     {
       resolve: "gatsby-source-filesystem",
       options: {
-        name: "assets",
-        path: `./src/assets`,
+        name: "data",
+        path: `${__dirname}/data/home`,
       },
-      __key: "assets",
     },
     {
       resolve: "gatsby-source-filesystem",
       options: {
-        name: `data`,
+        name: `sharedDesktopImages`,
+        path: `${__dirname}/data/shared`,
+      },
+    },
+    {
+      resolve: "gatsby-source-filesystem",
+      options: {
+        name: `dataAll`,
         path: `${__dirname}/data`,
+      },
+    },
+    {
+      resolve: "gatsby-source-filesystem",
+      options: {
+        name: `assets`,
+        path: `${__dirname}/src/assets`,
       },
     },
   ],
