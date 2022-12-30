@@ -31,35 +31,60 @@ const config: GatsbyConfig = {
               populate: {
                 gallery: {
                   populate: {
-                    gallery: {
+                    first: {
                       populate: {
-                        image: "*",
+                        desktop: "*",
+                        tablet: "*",
+                        mobile: "*",
                       },
                     },
+                    second: {
+                      populate: {
+                        desktop: "*",
+                        tablet: "*",
+                        mobile: "*",
+                      },
+                    },
+                    third: {
+                      populate: {
+                        desktop: "*",
+                        tablet: "*",
+                        mobile: "*",
+                      },
+                    },
+                  },
+                },
+                others: {
+                  populate: {
+                    image: {
+                      populate: {
+                        desktop: "*",
+                        tablet: "*",
+                        mobile: "*",
+                      },
+                    },
+                  },
+                },
+                includes: "*",
+                image: {
+                  populate: {
+                    desktop: "*",
+                    tablet: "*",
+                    mobile: "*",
                   },
                 },
                 categoryImage: {
                   populate: {
-                    image: "*",
-                  },
-                },
-                includes: "*",
-                others: {
-                  populate: {
-                    images: {
-                      populate: {
-                        image: "*",
-                      },
-                    },
-                  },
-                },
-                product_image: {
-                  populate: {
-                    image: "*",
+                    desktop: "*",
+                    tablet: "*",
+                    mobile: "*",
                   },
                 },
               },
             },
+          },
+          {
+            singularName: "category",
           },
         ],
         singleTypes: [
@@ -67,19 +92,61 @@ const config: GatsbyConfig = {
             singularName: "home",
             queryParams: {
               populate: {
-                homeHeroImage: {
+                image_hero: {
                   populate: {
-                    images: {
-                      populate: {
-                        image_hero: "*",
-                      },
+                    image: {
+                      desktop: "*",
+                      tablet: "*",
+                      mobile: "*",
                     },
                   },
                 },
-                section: {
+                first: {
                   populate: {
-                    image: "*",
+                    image: {
+                      desktop: "*",
+                      tablet: "*",
+                      mobile: "*",
+                    },
                   },
+                },
+                second: {
+                  populate: {
+                    image: {
+                      desktop: "*",
+                      tablet: "*",
+                      mobile: "*",
+                    },
+                  },
+                },
+                third: {
+                  populate: {
+                    image: {
+                      desktop: "*",
+                      tablet: "*",
+                      mobile: "*",
+                    },
+                  },
+                },
+              },
+            },
+          },
+          {
+            singularName: "thumbnail",
+            queryParams: {
+              populate: {
+                image: "*",
+              },
+            },
+          },
+          {
+            singularName: "advertising",
+            queryParams: {
+              populate: {
+                image: {
+                  desktop: "*",
+                  tablet: "*",
+                  mobile: "*",
                 },
               },
             },
@@ -87,33 +154,11 @@ const config: GatsbyConfig = {
         ],
       },
     },
-
     {
       resolve: "gatsby-source-filesystem",
       options: {
         name: "pages",
         path: `${__dirname}/src/pages`,
-      },
-    },
-    {
-      resolve: "gatsby-source-filesystem",
-      options: {
-        name: "data",
-        path: `${__dirname}/data/home`,
-      },
-    },
-    {
-      resolve: "gatsby-source-filesystem",
-      options: {
-        name: `sharedDesktopImages`,
-        path: `${__dirname}/data/shared`,
-      },
-    },
-    {
-      resolve: "gatsby-source-filesystem",
-      options: {
-        name: `dataAll`,
-        path: `${__dirname}/data`,
       },
     },
     {
