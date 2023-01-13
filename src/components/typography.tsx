@@ -54,6 +54,7 @@ export const TypographyOverline = styled.p`
   font-family: var(--font-family-regular);
   line-height: var(--overline-line-height);
   letter-spacing: var(--overline-letter-spacing);
+  color: var(--color-white);
   opacity: 0.5;
 `;
 export const TypographySubtitle = styled.p`
@@ -64,10 +65,10 @@ export const TypographySubtitle = styled.p`
   letter-spacing: var(--subtitle-letter-spacing);
 `;
 
-export const TypographyBody = styled.p`
+export const TypographyBody = styled.div`
   font-size: var(--body-font-size);
   font-family: var(--font-family-medium);
   line-height: var(--body-line-height);
-  opacity: 0.75;
   color: ${(props: any) => (props.color ? props.color : "#000000")};
+  opacity: 0.75;
 `;

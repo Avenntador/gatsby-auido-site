@@ -1,7 +1,13 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import rightArrow from "../assets/icons/icon-arrow-right.svg";
+import { Link, navigate } from "gatsby";
 
+interface ButtonProps {
+  readonly variant: any;
+}
+
+// ---------------------------------
 const sharedStyle = css`
   width: 16rem;
   height: 4.8rem;
@@ -10,12 +16,10 @@ const sharedStyle = css`
   font-size: 1.3rem;
   letter-spacing: 0.1rem;
 `;
-
-const StyledColoredButton = styled.button`
-  ${sharedStyle}
+export const mainButton = css`
   line-height: 2.5rem;
-  color: var(--color-white);
   background-color: var(--color-orange-primary);
+  color: var(--color-white);
   font-family: var(--font-family-bold);
   border: none;
 
@@ -23,12 +27,10 @@ const StyledColoredButton = styled.button`
     background-color: var(--color-orange-secondary);
   }
 `;
-
-const StyledUncoloredButton = styled.button`
-  ${sharedStyle}
+export const secondaryButton = css`
   line-height: 2.5rem;
-  color: var(--color-black-primary);
   background-color: var(--color-white);
+  color: var(--color-black-primary);
   font-family: var(--font-family-bold);
   border: 1px solid var(--color-black-primary);
 
@@ -37,9 +39,31 @@ const StyledUncoloredButton = styled.button`
     color: var(--color-white);
   }
 `;
+export const tertiaryButton = css`
+  line-height: 2.5rem;
+  background-color: transparent;
+  color: var(--color-black-primary);
+  font-family: var(--font-family-bold);
+  border: 1px solid var(--color-black-primary);
 
-const StyledNavButton = styled.button`
-  ${sharedStyle}
+  &:hover {
+    background-color: var(--color-black-primary);
+    color: var(--color-white);
+  }
+`;
+export const quartiaryButton = css`
+  line-height: 2.5rem;
+  background-color: var(--color-black-primary);
+  color: var(--color-white);
+  font-family: var(--font-family-bold);
+  border: none;
+
+  &:hover {
+    background-color: #4c4c4c;
+    color: var(--color-white);
+  }
+`;
+export const navButton = css`
   line-height: 1.8rem;
   opacity: 0.5;
   font-family: var(--font-family-bold);
@@ -55,22 +79,63 @@ const StyledNavButton = styled.button`
     opacity: 1;
   }
 `;
+// ---------------------------------
 
-const ColoredButton = ({ title }: { title: String }) => {
-  return <StyledColoredButton>{title}</StyledColoredButton>;
-};
+// ---------------------------------
+const StyledBackNavButton = styled.button`
+  font-size: 1.5rem;
+  font-family: var(--font-family-regular);
+  line-height: 2.5rem;
+  color: #000000;
+  background-color: transparent;
+  opacity: 0.5;
+  border: none;
+  cursor: pointer;
 
-const UncoloredButton = ({ title }: { title: String }) => {
-  return <StyledUncoloredButton>{title}</StyledUncoloredButton>;
-};
+  &:hover {
+    color: var(--color-orange-primary);
+  }
+`;
 
-const NavButton = () => {
+export const BackNavButton = () => {
   return (
-    <StyledNavButton>
-      shop&nbsp;
-      <img src={rightArrow} alt="" />
-    </StyledNavButton>
+    <StyledBackNavButton onClick={() => navigate(-1)}>
+      Go back
+    </StyledBackNavButton>
   );
 };
 
-export { ColoredButton, UncoloredButton, NavButton };
+const ButtonBase = styled.button<ButtonProps>`
+  ${sharedStyle}
+  ${(props) => props.variant};
+`;
+// ---------------------------------
+
+// TODO: сделать разные батоны, но чтоб можно было применить стиль css
+
+const Button = ({
+  variant,
+  to,
+  title = "",
+}: {
+  variant: any;
+  to?: string;
+  title?: string;
+}) => {
+  return (
+    <Link to={`/${to}`}>
+      <ButtonBase variant={variant}>
+        {title ? (
+          title
+        ) : (
+          <>
+            shop&nbsp;
+            <img src={rightArrow} alt="" />
+          </>
+        )}
+      </ButtonBase>
+    </Link>
+  );
+};
+
+export default Button;

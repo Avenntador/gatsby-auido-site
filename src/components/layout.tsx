@@ -4,6 +4,15 @@ import React from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import styled from "styled-components";
+import { useStaticQuery, graphql } from "gatsby";
+
+export type categoryData = {
+  allStrapiCategory: {
+    nodes: {
+      title: string;
+    }[];
+  };
+};
 
 const Container = styled.div`
   max-width: var(--body-max-width);
@@ -13,17 +22,26 @@ const Container = styled.div`
   border-bottom: 1px solid black;
 `;
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({ children }: { children?: React.ReactNode }) => {
+  const categories: categoryData = useStaticQuery(getCategories);
+
   return (
     <Container>
-      {/* Navbar всегда тут */}
-      <Navbar />
+      <Navbar categories={categories} />
       {children}
-
-      {/* Footer всегда тут */}
-      <Footer />
+      <Footer categories={categories} />
     </Container>
   );
 };
 
 export default Layout;
+
+export const getCategories = graphql`
+  query getCategories {
+    allStrapiCategory {
+      nodes {
+        title
+      }
+    }
+  }
+`;

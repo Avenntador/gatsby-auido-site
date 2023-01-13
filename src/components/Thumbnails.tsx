@@ -1,12 +1,27 @@
 import React from "react";
 import styled from "styled-components";
-import { PageProps, graphql } from "gatsby";
+import { graphql, useStaticQuery } from "gatsby";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import { TypographyH6 } from "./typography";
-import { NavButton } from "./Buttons";
+import Button, { navButton } from "./Buttons";
+
+type ThumbnailsData = {
+  strapiThumbnail: {
+    thumbnails: {
+      id: number;
+      category: string;
+      image: {
+        localFile: {
+          childImageSharp: {
+            gatsbyImageData: any;
+          };
+        };
+      };
+    }[];
+  };
+};
 
 const ThumbnailsStyle = styled.div`
-  margin: 20rem 0 16.8rem 0;
   display: flex;
   justify-content: space-between;
 
@@ -36,19 +51,22 @@ const ThumbnailsStyle = styled.div`
 `;
 
 const Thumbnails = () => {
+  const thumbnails: ThumbnailsData = useStaticQuery(getThumbnailData);
+
   return (
     <ThumbnailsStyle>
-      {thumbnailsArray.map((item) => {
+      {thumbnails.strapiThumbnail.thumbnails.map((item) => {
+        const id = item.id;
+        const category = item.category;
+        const image = getImage(item.image.localFile);
+
         return (
-          <div className="thumbnails-item" key={item.id}>
+          <div className="thumbnails-item" key={id}>
             <div className="thumbnails-item-image">
-              <GatsbyImage
-                image={item.childImageSharp.gatsbyImageData}
-                alt="thumbnail"
-              />
+              <GatsbyImage image={image!} alt="thumbnail" />
             </div>
-            <TypographyH6>{item.name}</TypographyH6>
-            <NavButton />
+            <TypographyH6>{category}</TypographyH6>
+            <Button to={category} variant={navButton} />
           </div>
         );
       })}
@@ -57,3 +75,21 @@ const Thumbnails = () => {
 };
 
 export default Thumbnails;
+
+const getThumbnailData = graphql`
+  query getThumbnailData {
+    strapiThumbnail {
+      thumbnails {
+        category
+        image {
+          localFile {
+            childImageSharp {
+              gatsbyImageData
+            }
+          }
+        }
+        id
+      }
+    }
+  }
+`;
