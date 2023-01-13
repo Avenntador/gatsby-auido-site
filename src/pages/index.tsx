@@ -1,16 +1,94 @@
 import React from "react";
 import Layout from "../components/layout";
 import styled from "styled-components";
-import { PageProps, graphql } from "gatsby";
+import { graphql, useStaticQuery } from "gatsby";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import {
   TypographyOverline,
   TypographyH1,
-  TypographyH6,
   TypographyBody,
+  TypographyH4,
 } from "../components/typography";
-import { ColoredButton } from "../components/Buttons";
-import { NavButton } from "../components/Buttons";
+import Seo from "../components/Seo";
+import Thumbnails from "../components/Thumbnails";
+import Advertise from "../components/Advertise";
+
+import Button, {
+  mainButton,
+  tertiaryButton,
+  quartiaryButton,
+} from "../components/Buttons";
+
+type HomeData = {
+  strapiHome: {
+    header_slug: string;
+    image_hero: {
+      desktop: {
+        localFile: {
+          childImageSharp: {
+            gatsbyImageData: any;
+          };
+        };
+      };
+    };
+    desc: {
+      data: {
+        desc: string;
+      };
+    };
+    title: string;
+    sub_title: string;
+    first: {
+      slug: string;
+      image: {
+        desktop: {
+          localFile: {
+            childImageSharp: {
+              gatsbyImageData: any;
+            };
+          };
+        };
+      };
+      feature: {
+        localFile: {
+          publicURL: string;
+        };
+      };
+      name: string;
+      desc: {
+        data: {
+          desc: string;
+        };
+      };
+    };
+    second: {
+      name: string;
+      slug: string;
+      image: {
+        desktop: {
+          localFile: {
+            childImageSharp: {
+              gatsbyImageData: any;
+            };
+          };
+        };
+      };
+    };
+    third: {
+      name: string;
+      slug: string;
+      image: {
+        desktop: {
+          localFile: {
+            childImageSharp: {
+              gatsbyImageData: any;
+            };
+          };
+        };
+      };
+    };
+  };
+};
 
 const HeaderWrapper = styled.header`
   max-width: var(--header-max-width);
@@ -29,10 +107,19 @@ const HeaderWrapper = styled.header`
     color: var(--color-white);
     transform: translateY(-50%);
 
+    /* typography H1 */
     h1 {
       margin: 2.4rem 0;
+      color: #ffffff;
     }
 
+    /* typography BODY */
+    p {
+      max-width: 34.9rem;
+      color: #ffffff;
+    }
+
+    /* colored button */
     button {
       margin-top: 4rem;
     }
@@ -42,108 +129,290 @@ const HeaderWrapper = styled.header`
 const ContentWrapper = styled.main`
   max-width: var(--content-max-width);
   margin: 0 auto;
+  padding: 12rem 0 20rem 0;
+`;
 
-  .thumbnails {
-    margin: 20rem 0 16.8rem 0;
-    display: flex;
-    justify-content: space-between;
+const HomePageFirstSection = styled.div`
+  margin: 16.8rem 0 4.8rem 0;
+  height: 56rem;
+  border-radius: 0.8rem;
+  background-color: var(--color-orange-primary);
+  position: relative;
+  overflow: hidden;
+  z-index: 100;
 
-    .thumbnails-item {
-      flex: 0.31;
-      height: 20.4rem;
-      background-color: var(--color-gray-primary);
-      border-radius: 0.8rem;
+  .first-section-desc {
+    max-width: 34.9rem;
+    position: absolute;
+    top: 50%;
+    right: 8%;
+    transform: translateY(-50%);
+    z-index: 50;
+
+    h1 {
+      color: #ffffff;
+      margin-bottom: 2.4rem;
+    }
+
+    p {
+      margin-bottom: 4rem;
+      color: #ffffff;
+    }
+  }
+
+  .first-section-img {
+    max-width: 41rem;
+    position: absolute;
+    left: 20%;
+    bottom: -2%;
+    transform: translateX(-20%);
+
+    .img {
       position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: center;
+      z-index: 50;
+    }
 
-      & > :not(:first-child) {
-        margin-bottom: 3rem;
-      }
-
-      .thumbnails-item-image {
-        width: 16rem;
-        position: absolute;
-        top: -25%;
-        left: 50%;
-        transform: translateX(-50%);
-      }
+    .pattern {
+      position: absolute;
+      left: -65%;
+      top: -35%;
+      z-index: 1;
     }
   }
 `;
 
 const HomePageSecondSection = styled.div`
-  margin: 16.8rem 0 4.8rem 0;
-  border: 1px solid black;
-  height: 56rem;
+  margin-bottom: 4.8rem;
+  height: 32rem;
   border-radius: 0.8rem;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+
+  .second-section-desc {
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
+
+    h4 {
+      margin-bottom: 3.2rem;
+    }
+  }
 `;
 
 const HomePageThirdSection = styled.div`
-  margin-bottom: 4.8rem;
+  margin-bottom: 20rem;
   display: flex;
   justify-content: space-between;
   height: 32rem;
 
   & > div {
-    border: 1px solid red;
+    overflow: hidden;
     flex: 0.49;
     border-radius: 0.8rem;
+    position: relative;
+  }
+
+  .right {
+    background-color: var(--color-gray-primary);
+
+    h4 {
+      margin-bottom: 3.2rem;
+    }
+
+    .third-section-desc {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
   }
 `;
 
 const IndexPage = () => {
+  const homeData: HomeData = useStaticQuery(getHomeData);
+
+  // Header data
+  const heroImage = getImage(homeData.strapiHome.image_hero.desktop.localFile);
+  const title = homeData.strapiHome.title;
+  const desc = homeData.strapiHome.desc.data.desc;
+  const subTitle = homeData.strapiHome.sub_title;
+  const headerSlug = homeData.strapiHome.header_slug;
+
+  // First content data
+  const firstContentTitle = homeData.strapiHome.first.name;
+  const patternImage = homeData.strapiHome.first.feature.localFile.publicURL;
+  const firstContentDesc = homeData.strapiHome.first.desc.data.desc;
+  const firstContentImage = getImage(
+    homeData.strapiHome.first.image.desktop.localFile
+  );
+  const firstSlug = homeData.strapiHome.first.slug;
+
+  // Second content data
+  const secondContentTitle = homeData.strapiHome.second.name;
+  const secondContentImage = getImage(
+    homeData.strapiHome.second.image.desktop.localFile
+  );
+  const secondSlug = homeData.strapiHome.second.slug;
+
+  // Third content data
+  const thirdContentTitle = homeData.strapiHome.third.name;
+  const thirdContentImage = getImage(
+    homeData.strapiHome.third.image.desktop.localFile
+  );
+  const thirdSlug = homeData.strapiHome.third.slug;
 
   return (
     <Layout>
-      {/* <GatsbyImage
-        image={image!}
-        alt="Some"
-      /> */}
+      <GatsbyImage image={heroImage!} alt="Some" />
       <HeaderWrapper>
         <div className="header-description">
-          <TypographyOverline>NEW PRODUCT</TypographyOverline>
-          <TypographyH1 color="#ffffff">XX99 Mark II Headphones</TypographyH1>
-          <TypographyBody color="#ffffff">
-            Experience natural, life like audio and exceptional build quality
-            made for the passionate music enthusiast.
-          </TypographyBody>
-          <ColoredButton title="See product" />
+          <TypographyOverline>{subTitle}</TypographyOverline>
+          <TypographyH1>{title}</TypographyH1>
+          <TypographyBody>{desc}</TypographyBody>
+          <Button
+            to={`${headerSlug}`}
+            variant={mainButton}
+            title="See product"
+          />
         </div>
       </HeaderWrapper>
 
-      {/* <ContentWrapper>
-        <div className="thumbnails">
-          {thumbnailsArray.map((item) => {
-            return (
-              <div className="thumbnails-item" key={item.id}>
-                <div className="thumbnails-item-image">
-                  <GatsbyImage
-                    image={item.childImageSharp.gatsbyImageData}
-                    alt="thumbnail"
-                  />
-                </div>
-                <TypographyH6>{item.name}</TypographyH6>
-                <NavButton />
-              </div>
-            );
-          })}
-        </div>
+      <ContentWrapper>
+        <Thumbnails />
 
-        <HomePageSecondSection></HomePageSecondSection>
+        <HomePageFirstSection>
+          <div className="first-section-desc">
+            <TypographyH1>{firstContentTitle}</TypographyH1>
+            <TypographyBody>{firstContentDesc}</TypographyBody>
+            <Button
+              to={firstSlug}
+              variant={quartiaryButton}
+              title="See product"
+            />
+          </div>
+          <div className="first-section-img">
+            <GatsbyImage
+              className="img"
+              image={firstContentImage!}
+              alt="Some"
+            />
+            <img className="pattern" src={patternImage} alt="a" />
+          </div>
+        </HomePageFirstSection>
+
+        <HomePageSecondSection>
+          <div className="second-section-desc">
+            <TypographyH4>{secondContentTitle}</TypographyH4>
+            <Button
+              to={secondSlug}
+              variant={tertiaryButton}
+              title="See product"
+            />
+          </div>
+          <GatsbyImage image={secondContentImage!} alt="Some" />
+        </HomePageSecondSection>
+
         <HomePageThirdSection>
-          <div>1</div>
-          <div>2</div>
+          <div className="left">
+            <GatsbyImage image={thirdContentImage!} alt="Some" />
+          </div>
+          <div className="right">
+            <div className="third-section-desc">
+              <TypographyH4>{thirdContentTitle}</TypographyH4>
+              <Button
+                to={thirdSlug}
+                variant={tertiaryButton}
+                title="See product"
+              />
+            </div>
+          </div>
         </HomePageThirdSection>
-      </ContentWrapper> */}
+
+        <Advertise />
+      </ContentWrapper>
     </Layout>
   );
 };
 
-// export const Head = () => {
-//   return <title></title>;
-// };
+export const Head = () => {
+  return <Seo title="Home" />;
+};
 
 export default IndexPage;
+
+const getHomeData = graphql`
+  query getHome {
+    strapiHome {
+      title
+      sub_title
+      header_slug
+      desc {
+        data {
+          desc
+        }
+      }
+      image_hero {
+        desktop {
+          localFile {
+            childImageSharp {
+              gatsbyImageData
+            }
+          }
+        }
+      }
+      first {
+        slug
+        name
+        image {
+          desktop {
+            localFile {
+              childImageSharp {
+                gatsbyImageData
+              }
+            }
+          }
+        }
+        feature {
+          localFile {
+            publicURL
+          }
+        }
+
+        desc {
+          data {
+            desc
+          }
+        }
+      }
+      second {
+        name
+        slug
+        image {
+          desktop {
+            localFile {
+              childImageSharp {
+                gatsbyImageData
+              }
+            }
+          }
+        }
+      }
+      third {
+        name
+        slug
+        image {
+          desktop {
+            localFile {
+              childImageSharp {
+                gatsbyImageData
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
