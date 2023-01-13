@@ -6,7 +6,7 @@ import type { GatsbyConfig } from "gatsby";
 
 const config: GatsbyConfig = {
   siteMetadata: {
-    title: `gatsby-audio-site`,
+    title: `Audiophille`,
     siteUrl: `https://www.yourdomain.tld`,
   },
   // More easily incorporate content into your pages through automatic TypeScript type generation and better GraphQL IntelliSense.
@@ -80,6 +80,7 @@ const config: GatsbyConfig = {
                     mobile: "*",
                   },
                 },
+                categories: "*",
               },
             },
           },
@@ -94,38 +95,53 @@ const config: GatsbyConfig = {
               populate: {
                 image_hero: {
                   populate: {
-                    image: {
-                      desktop: "*",
-                      tablet: "*",
-                      mobile: "*",
-                    },
+                    desktop: "*",
+                    tablet: "*",
+                    mobile: "*",
                   },
                 },
                 first: {
                   populate: {
+                    feature: "*",
                     image: {
-                      desktop: "*",
-                      tablet: "*",
-                      mobile: "*",
+                      populate: { desktop: "*", tablet: "*", mobile: "*" },
                     },
                   },
                 },
                 second: {
                   populate: {
                     image: {
-                      desktop: "*",
-                      tablet: "*",
-                      mobile: "*",
+                      populate: { desktop: "*", tablet: "*", mobile: "*" },
                     },
                   },
                 },
                 third: {
                   populate: {
                     image: {
-                      desktop: "*",
-                      tablet: "*",
-                      mobile: "*",
+                      populate: { desktop: "*", tablet: "*", mobile: "*" },
                     },
+                  },
+                },
+              },
+            },
+          },
+          {
+            singularName: "advertising",
+            queryParams: {
+              populate: {
+                image: {
+                  populate: { desktop: "*", tablet: "*", mobile: "*" },
+                },
+              },
+            },
+          },
+          {
+            singularName: "footer",
+            queryParams: {
+              populate: {
+                links: {
+                  populate: {
+                    link: "*",
                   },
                 },
               },
@@ -135,18 +151,10 @@ const config: GatsbyConfig = {
             singularName: "thumbnail",
             queryParams: {
               populate: {
-                image: "*",
-              },
-            },
-          },
-          {
-            singularName: "advertising",
-            queryParams: {
-              populate: {
-                image: {
-                  desktop: "*",
-                  tablet: "*",
-                  mobile: "*",
+                thumbnails: {
+                  populate: {
+                    image: "*",
+                  },
                 },
               },
             },
@@ -168,6 +176,7 @@ const config: GatsbyConfig = {
         path: `${__dirname}/src/assets`,
       },
     },
+ 
   ],
 };
 
