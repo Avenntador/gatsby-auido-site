@@ -1,5 +1,5 @@
-import React from "react";
-import Layout from "../components/layout";
+import React, { useContext } from "react";
+import Layout from "../components/Layout";
 import styled from "styled-components";
 import {
   TypographyBody,
@@ -8,7 +8,8 @@ import {
 } from "../components/typography";
 import { graphql } from "gatsby";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
-import Button, { mainButton } from "../components/Buttons";
+import DefaultButton from "../components/Buttons/DefaultButton";
+import { mainButton } from "../components/Buttons/buttonStyle";
 import Seo from "../components/Seo";
 
 type ProductDataType = {
@@ -131,7 +132,7 @@ const CategoryProductTemplate = ({
               <TypographyBody className="product-descText">
                 {desc}
               </TypographyBody>
-              <Button
+              <DefaultButton
                 to={`${category}/${slug}`}
                 variant={mainButton}
                 title="See product"

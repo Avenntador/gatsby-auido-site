@@ -3,7 +3,9 @@ import styled from "styled-components";
 import { graphql, useStaticQuery } from "gatsby";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import { TypographyH6 } from "./typography";
-import Button, { navButton } from "./Buttons";
+import DefaultButton from "./Buttons/DefaultButton";
+import { navButton } from "./Buttons/buttonStyle";
+import rightArrow from "../assets/icons/icon-arrow-right.svg";
 
 type ThumbnailsData = {
   strapiThumbnail: {
@@ -66,7 +68,16 @@ const Thumbnails = () => {
               <GatsbyImage image={image!} alt="thumbnail" />
             </div>
             <TypographyH6>{category}</TypographyH6>
-            <Button to={category} variant={navButton} />
+            <DefaultButton
+              to={category}
+              variant={navButton}
+              title={
+                <>
+                  shop&nbsp;
+                  <img src={rightArrow} alt="" />
+                </>
+              }
+            />
           </div>
         );
       })}

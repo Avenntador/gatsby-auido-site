@@ -1,11 +1,10 @@
 import { graphql, Link, useStaticQuery } from "gatsby";
 import React from "react";
 import styled from "styled-components";
-import logo from "../assets/icons/logo.svg";
-import { categoryData } from "./layout";
+import { Categories } from "./Layout";
 import { TypographyBody } from "./typography";
 
-// TODO: fix repeating nav-list 
+// TODO: fix repeating nav-list
 
 type footerDataType = {
   strapiFooter: {
@@ -104,7 +103,20 @@ const FooterContainer = styled.footer`
   }
 `;
 
-const Footer = ({ categories }: { categories: categoryData }) => {
+// TODO: FIX MESS
+
+const Footer: React.FC<
+  Categories & {
+    socials: {
+      socialLogo: {
+        localFile: {
+          publicURL: string;
+        };
+      };
+      slug: string;
+    }[];
+  }
+> = ({ categories, socials, logo }) => {
   const footerData: footerDataType = useStaticQuery(getFooterData);
 
   const linksArray = footerData.strapiFooter.links;
@@ -124,7 +136,7 @@ const Footer = ({ categories }: { categories: categoryData }) => {
               home
             </Link>
 
-            {categories.allStrapiCategory.nodes.map((category, index) => {
+            {categories.map((category, index) => {
               return (
                 <Link
                   className="nav-list-item"

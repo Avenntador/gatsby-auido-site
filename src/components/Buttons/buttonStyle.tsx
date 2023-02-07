@@ -1,21 +1,23 @@
-import React from "react";
-import styled, { css } from "styled-components";
-import rightArrow from "../assets/icons/icon-arrow-right.svg";
-import { Link, navigate } from "gatsby";
+import { css } from "styled-components";
 
-interface ButtonProps {
-  readonly variant: any;
+export interface ButtonProps {
+  readonly variant?: any;
 }
 
-// ---------------------------------
-const sharedStyle = css`
-  width: 16rem;
+// common
+export const sharedStyle = css`
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 16rem;
   height: 4.8rem;
   text-transform: uppercase;
+  text-decoration: none;
   cursor: pointer;
   font-size: 1.3rem;
   letter-spacing: 0.1rem;
 `;
+// в основном для link btns
 export const mainButton = css`
   line-height: 2.5rem;
   background-color: var(--color-orange-primary);
@@ -63,6 +65,7 @@ export const quartiaryButton = css`
     color: var(--color-white);
   }
 `;
+// в основном для thumbnails
 export const navButton = css`
   line-height: 1.8rem;
   opacity: 0.5;
@@ -79,63 +82,25 @@ export const navButton = css`
     opacity: 1;
   }
 `;
-// ---------------------------------
-
-// ---------------------------------
-const StyledBackNavButton = styled.button`
-  font-size: 1.5rem;
-  font-family: var(--font-family-regular);
-  line-height: 2.5rem;
-  color: #000000;
-  background-color: transparent;
-  opacity: 0.5;
-  border: none;
+// в основном для prev or next btn
+export const backNavButton = css`
+  display: inline-block;
   cursor: pointer;
+  padding: 0;
+  font-size: 1.5rem;
+  line-height: 2.5rem;
+  opacity: 0.5;
+  font-family: var(--font-family-regular);
+  color: var(--color-black-primary);
+  background-color: transparent;
+  border: none;
+  outline: none;
+  min-width: auto;
+  height: auto;
+  text-transform: capitalize;
+  text-decoration: none;
 
   &:hover {
     color: var(--color-orange-primary);
   }
 `;
-
-export const BackNavButton = () => {
-  return (
-    <StyledBackNavButton onClick={() => navigate(-1)}>
-      Go back
-    </StyledBackNavButton>
-  );
-};
-
-const ButtonBase = styled.button<ButtonProps>`
-  ${sharedStyle}
-  ${(props) => props.variant};
-`;
-// ---------------------------------
-
-// TODO: сделать разные батоны, но чтоб можно было применить стиль css
-
-const Button = ({
-  variant,
-  to,
-  title = "",
-}: {
-  variant: any;
-  to?: string;
-  title?: string;
-}) => {
-  return (
-    <Link to={`/${to}`}>
-      <ButtonBase variant={variant}>
-        {title ? (
-          title
-        ) : (
-          <>
-            shop&nbsp;
-            <img src={rightArrow} alt="" />
-          </>
-        )}
-      </ButtonBase>
-    </Link>
-  );
-};
-
-export default Button;

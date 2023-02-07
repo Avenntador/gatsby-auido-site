@@ -1,9 +1,10 @@
-import React from "react";
+// @ts-nocheck
+import React, { useRef } from "react";
 import styled from "styled-components";
-import logo from "../assets/icons/logo.svg";
 import cart from "../assets/icons/icon-cart.svg";
 import { Link } from "gatsby";
-import { categoryData } from "./layout";
+import ModalCart from "./Cart/ModalCart";
+import { Categories } from "./Layout";
 
 const NavbarContainer = styled.nav`
   max-width: var(--navbar-max-width);
@@ -51,19 +52,24 @@ const NavbarContainer = styled.nav`
   }
 `;
 
-const Navbar = ({ categories }: { categories: categoryData }) => {
+const Navbar: React.FC<Categories> = ({ categories, logo }) => {
+  const modalRef = useRef();
+
+  const openModalHandler = () => {
+    modalRef.current.openModal();
+  };
+
   return (
     <NavbarContainer>
       <Link to="/">
         <img className="logo" src={logo} alt="audiophile" />
       </Link>
-
       <div className="nav-list">
         <Link className="nav-list-item" to={`/`}>
           home
         </Link>
 
-        {categories.allStrapiCategory.nodes.map((category, index) => {
+        {categories.map((category, index) => {
           return (
             <Link
               className="nav-list-item"
@@ -76,7 +82,14 @@ const Navbar = ({ categories }: { categories: categoryData }) => {
         })}
       </div>
 
-      <img className="cart" src={cart} alt="audiophile-cart" />
+      <img
+        onClick={openModalHandler}
+        className="cart"
+        src={cart}
+        alt="audiophile-cart"
+      />
+
+      <ModalCart ref={modalRef} />
     </NavbarContainer>
   );
 };

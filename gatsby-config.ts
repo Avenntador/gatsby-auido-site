@@ -19,6 +19,7 @@ const config: GatsbyConfig = {
     "gatsby-plugin-mdx",
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
+    "gatsby-plugin-portal",
     {
       resolve: `gatsby-source-strapi`,
       options: {
@@ -29,6 +30,7 @@ const config: GatsbyConfig = {
             singularName: "product",
             queryParams: {
               populate: {
+                cartImg: "*",
                 gallery: {
                   populate: {
                     first: {
@@ -63,6 +65,7 @@ const config: GatsbyConfig = {
                         mobile: "*",
                       },
                     },
+                    category: "*",
                   },
                 },
                 includes: "*",
@@ -93,6 +96,7 @@ const config: GatsbyConfig = {
             singularName: "home",
             queryParams: {
               populate: {
+                category: "*",
                 image_hero: {
                   populate: {
                     desktop: "*",
@@ -103,6 +107,7 @@ const config: GatsbyConfig = {
                 first: {
                   populate: {
                     feature: "*",
+                    category: "*",
                     image: {
                       populate: { desktop: "*", tablet: "*", mobile: "*" },
                     },
@@ -110,6 +115,7 @@ const config: GatsbyConfig = {
                 },
                 second: {
                   populate: {
+                    category: "*",
                     image: {
                       populate: { desktop: "*", tablet: "*", mobile: "*" },
                     },
@@ -117,6 +123,7 @@ const config: GatsbyConfig = {
                 },
                 third: {
                   populate: {
+                    category: "*",
                     image: {
                       populate: { desktop: "*", tablet: "*", mobile: "*" },
                     },
@@ -159,6 +166,21 @@ const config: GatsbyConfig = {
               },
             },
           },
+          {
+            singularName: "common",
+            queryParams: {
+              populate: {
+                mainLogo: "*",
+                paymentLogo: "*",
+                cartLogo: "*",
+                socials: {
+                  populate: {
+                    socialLogo: "*",
+                  },
+                },
+              },
+            },
+          },
         ],
       },
     },
@@ -176,7 +198,6 @@ const config: GatsbyConfig = {
         path: `${__dirname}/src/assets`,
       },
     },
- 
   ],
 };
 

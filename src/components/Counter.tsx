@@ -1,10 +1,19 @@
-import React from "react";
-import styled from "styled-components";
+import React, { SetStateAction } from "react";
+import styled, { css } from "styled-components";
 
-const StyledCounter = styled.span`
+interface CounterStyleProps {
+  readonly variant: any;
+}
+
+interface CounterComponentProps {
+  count: number;
+  increment: () => void;
+  decrement: () => void;
+  variant: any;
+}
+
+const sharedStyle = css`
   display: inline-block;
-  width: 12rem;
-  height: 4.8rem;
   background-color: var(--color-gray-primary);
   display: flex;
   align-items: center;
@@ -28,13 +37,37 @@ const StyledCounter = styled.span`
   }
 `;
 
-const Counter = ({ count }: { count: number }) => {
+const CounterBase = styled.span<CounterStyleProps>`
+  ${sharedStyle}
+  ${(props) => props.variant};
+`;
+
+export const defaultCounter = css`
+  width: 12rem;
+  height: 4.8rem;
+`;
+
+export const cartCounter = css`
+  width: 9.6rem;
+  height: 3.2rem;
+`;
+
+const Counter: React.FC<CounterComponentProps> = ({
+  count,
+  increment,
+  decrement,
+  variant,
+}) => {
   return (
-    <StyledCounter>
-      <span className="sign">-</span>
+    <CounterBase variant={variant}>
+      <span className="sign" onClick={decrement}>
+        -
+      </span>
       <span className="count">{count}</span>
-      <span className="sign">+</span>
-    </StyledCounter>
+      <span className="sign" onClick={increment}>
+        +
+      </span>
+    </CounterBase>
   );
 };
 

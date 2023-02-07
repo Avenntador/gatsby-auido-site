@@ -6,12 +6,39 @@ import Footer from "./Footer";
 import styled from "styled-components";
 import { useStaticQuery, graphql } from "gatsby";
 
-export type categoryData = {
+type LayoutData = {
   allStrapiCategory: {
     nodes: {
       title: string;
     }[];
   };
+  strapiCommon: {
+    cartLogo: {
+      localFile: {
+        publicURL: string;
+      };
+    };
+    mainLogo: {
+      localFile: {
+        publicURL: string;
+      };
+    };
+    socials: {
+      socialLogo: {
+        localFile: {
+          publicURL: string;
+        };
+      };
+      slug: string;
+    }[];
+  };
+};
+
+export type Categories = {
+  categories: {
+    title: string;
+  }[];
+  logo: string;
 };
 
 const Container = styled.div`
@@ -22,14 +49,25 @@ const Container = styled.div`
   border-bottom: 1px solid black;
 `;
 
-const Layout = ({ children }: { children?: React.ReactNode }) => {
-  const categories: categoryData = useStaticQuery(getCategories);
+const Layout = ({
+  children,
+  style,
+}: {
+  children?: React.ReactNode;
+  style?: any;
+}) => {
+  const data: LayoutData = useStaticQuery(getCategories);
+
+  const categories = data.allStrapiCategory.nodes;
+  const logo = data.strapiCommon.mainLogo.localFile.publicURL;
+
+  const socials = data.strapiCommon.socials;
 
   return (
-    <Container>
-      <Navbar categories={categories} />
+    <Container style={style}>
+      <Navbar categories={categories} logo={logo} />
       {children}
-      <Footer categories={categories} />
+      <Footer categories={categories} logo={logo} socials={socials} />
     </Container>
   );
 };
@@ -41,6 +79,26 @@ export const getCategories = graphql`
     allStrapiCategory {
       nodes {
         title
+      }
+    }
+    strapiCommon {
+      cartLogo {
+        localFile {
+          publicURL
+        }
+      }
+      mainLogo {
+        localFile {
+          publicURL
+        }
+      }
+      socials {
+        socialLogo {
+          localFile {
+            publicURL
+          }
+        }
+        slug
       }
     }
   }

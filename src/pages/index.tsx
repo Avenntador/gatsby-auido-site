@@ -1,5 +1,5 @@
 import React from "react";
-import Layout from "../components/layout";
+import Layout from "../components/Layout";
 import styled from "styled-components";
 import { graphql, useStaticQuery } from "gatsby";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
@@ -13,15 +13,19 @@ import Seo from "../components/Seo";
 import Thumbnails from "../components/Thumbnails";
 import Advertise from "../components/Advertise";
 
-import Button, {
+import DefaultButton from "../components/Buttons/DefaultButton";
+import {
   mainButton,
   tertiaryButton,
   quartiaryButton,
-} from "../components/Buttons";
+} from "../components/Buttons/buttonStyle";
 
 type HomeData = {
   strapiHome: {
     header_slug: string;
+    category: {
+      title: string;
+    };
     image_hero: {
       desktop: {
         localFile: {
@@ -39,7 +43,11 @@ type HomeData = {
     title: string;
     sub_title: string;
     first: {
+      name: string;
       slug: string;
+      category: {
+        title: string;
+      };
       image: {
         desktop: {
           localFile: {
@@ -54,7 +62,6 @@ type HomeData = {
           publicURL: string;
         };
       };
-      name: string;
       desc: {
         data: {
           desc: string;
@@ -64,6 +71,9 @@ type HomeData = {
     second: {
       name: string;
       slug: string;
+      category: {
+        title: string;
+      };
       image: {
         desktop: {
           localFile: {
@@ -77,6 +87,9 @@ type HomeData = {
     third: {
       name: string;
       slug: string;
+      category: {
+        title: string;
+      };
       image: {
         desktop: {
           localFile: {
@@ -114,13 +127,13 @@ const HeaderWrapper = styled.header`
     }
 
     /* typography BODY */
-    p {
+    div {
       max-width: 34.9rem;
       color: #ffffff;
     }
 
     /* colored button */
-    button {
+    a {
       margin-top: 4rem;
     }
   }
@@ -154,7 +167,7 @@ const HomePageFirstSection = styled.div`
       margin-bottom: 2.4rem;
     }
 
-    p {
+    div {
       margin-bottom: 4rem;
       color: #ffffff;
     }
@@ -240,6 +253,7 @@ const IndexPage = () => {
   const desc = homeData.strapiHome.desc.data.desc;
   const subTitle = homeData.strapiHome.sub_title;
   const headerSlug = homeData.strapiHome.header_slug;
+  const category = homeData.strapiHome.category.title;
 
   // First content data
   const firstContentTitle = homeData.strapiHome.first.name;
@@ -248,21 +262,21 @@ const IndexPage = () => {
   const firstContentImage = getImage(
     homeData.strapiHome.first.image.desktop.localFile
   );
-  const firstSlug = homeData.strapiHome.first.slug;
+  const firstSlug = `${homeData.strapiHome.first.category.title}/${homeData.strapiHome.first.slug}`;
 
   // Second content data
   const secondContentTitle = homeData.strapiHome.second.name;
   const secondContentImage = getImage(
     homeData.strapiHome.second.image.desktop.localFile
   );
-  const secondSlug = homeData.strapiHome.second.slug;
+  const secondSlug = `${homeData.strapiHome.second.category.title}/${homeData.strapiHome.second.slug}`;
 
   // Third content data
   const thirdContentTitle = homeData.strapiHome.third.name;
   const thirdContentImage = getImage(
     homeData.strapiHome.third.image.desktop.localFile
   );
-  const thirdSlug = homeData.strapiHome.third.slug;
+  const thirdSlug = `${homeData.strapiHome.third.category.title}/${homeData.strapiHome.third.slug}`;
 
   return (
     <Layout>
@@ -272,8 +286,8 @@ const IndexPage = () => {
           <TypographyOverline>{subTitle}</TypographyOverline>
           <TypographyH1>{title}</TypographyH1>
           <TypographyBody>{desc}</TypographyBody>
-          <Button
-            to={`${headerSlug}`}
+          <DefaultButton
+            to={`${category}/${headerSlug}`}
             variant={mainButton}
             title="See product"
           />
@@ -287,7 +301,7 @@ const IndexPage = () => {
           <div className="first-section-desc">
             <TypographyH1>{firstContentTitle}</TypographyH1>
             <TypographyBody>{firstContentDesc}</TypographyBody>
-            <Button
+            <DefaultButton
               to={firstSlug}
               variant={quartiaryButton}
               title="See product"
@@ -306,7 +320,7 @@ const IndexPage = () => {
         <HomePageSecondSection>
           <div className="second-section-desc">
             <TypographyH4>{secondContentTitle}</TypographyH4>
-            <Button
+            <DefaultButton
               to={secondSlug}
               variant={tertiaryButton}
               title="See product"
@@ -322,7 +336,7 @@ const IndexPage = () => {
           <div className="right">
             <div className="third-section-desc">
               <TypographyH4>{thirdContentTitle}</TypographyH4>
-              <Button
+              <DefaultButton
                 to={thirdSlug}
                 variant={tertiaryButton}
                 title="See product"
@@ -349,6 +363,9 @@ const getHomeData = graphql`
       title
       sub_title
       header_slug
+      category {
+        title
+      }
       desc {
         data {
           desc
@@ -366,6 +383,9 @@ const getHomeData = graphql`
       first {
         slug
         name
+        category {
+          title
+        }
         image {
           desktop {
             localFile {
@@ -390,6 +410,9 @@ const getHomeData = graphql`
       second {
         name
         slug
+        category {
+          title
+        }
         image {
           desktop {
             localFile {
@@ -403,6 +426,9 @@ const getHomeData = graphql`
       third {
         name
         slug
+        category {
+          title
+        }
         image {
           desktop {
             localFile {
